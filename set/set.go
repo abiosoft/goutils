@@ -5,6 +5,7 @@ import "sync"
 
 // Set stores distinct items.
 // An empty Set struct is not valid for use, use NewSet instead.
+//
 // Set is safe for concurrent use and all methods can be
 // accessed from multiple goroutines.
 type Set struct {
@@ -115,6 +116,9 @@ func (s *Set) Clear() {
 }
 
 // Iterator returns a new Iterator to iterate through values in the set.
+// Each call to this method creates a new Iterator. Therefore, the
+// returned Iterator should be assigned to a variable before usage.
+//
 // Writers to s wait until the iteration is complete. This ensures
 // no data manipulation during iteration.
 func (s *Set) Iterator() Iterator {
@@ -133,8 +137,8 @@ func (s *Set) Iterator() Iterator {
 	})
 }
 
-// IteratorFunc is similar to Iterator but it only iterates through values
-// that when passed to f, f returns true.
+// IteratorFunc is same as Iterator but the returned Iterator only
+// iterates through values that when passed to f, f returns true.
 func (s *Set) IteratorFunc(f func(value interface{}) bool) Iterator {
 	iterChan := make(chan interface{})
 	go func() {
@@ -153,9 +157,10 @@ func (s *Set) IteratorFunc(f func(value interface{}) bool) Iterator {
 	})
 }
 
-// Items returns a slice of a copy of all items in the set.
-// Modification to the returned slice does not affect the set
-// if none of items is a pointer.
+// Items returns a slice of all items in the set.
+// Modification to the returned slice does not affect the structure of
+// the set. However, any item in the set that is a pointer will be affected
+// if modified.
 func (s *Set) Items() []interface{} {
 	s.RLock()
 	defer s.RUnlock()
@@ -169,8 +174,9 @@ func (s *Set) Items() []interface{} {
 }
 
 // ItemsFunc returns slice of all items that when passed to f, f returns true.
-// Modification to the returned slice does not affect the set if none of the
-// items is a pointer.
+// Modification to the returned slice does not affect the structure of
+// the set. However, any item in the set that is a pointer will be affected
+// if modified.
 func (s *Set) ItemsFunc(f func(value interface{}) bool) []interface{} {
 	s.RLock()
 	defer s.RUnlock()
