@@ -2,9 +2,9 @@
 
 A set of personal utilities for Go.
 
-I will keep adding more packages as time goes on.
+[![Documentation](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/abiosoft/goutils) [![Build Status](https://drone.io/github.com/abiosoft/goutils/status.png)](https://drone.io/github.com/abiosoft/goutils/latest)
 
-[![Documentation](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/abiosoft/goutils)
+I will keep adding more packages as time goes on and the need arises.
 
 ### Packages
 
