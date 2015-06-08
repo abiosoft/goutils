@@ -4,8 +4,7 @@ package set
 import "sync"
 
 // Set stores distinct items.
-// An empty Set struct is not valid for use.
-// Use NewSet instead.
+// An empty Set struct is not valid for use, use NewSet instead.
 // Set is safe for concurrent use and all methods can be
 // accessed from multiple goroutines.
 type Set struct {
@@ -46,8 +45,7 @@ func (s *Set) Remove(value interface{}) {
 	delete(s.m, value)
 }
 
-// RemoveAll removes all values from the set if they exist in
-// the set.
+// RemoveAll removes all values from the set if they exist in the set.
 func (s *Set) RemoveAll(values ...interface{}) {
 	s.Lock()
 	defer s.Unlock()
@@ -56,10 +54,10 @@ func (s *Set) RemoveAll(values ...interface{}) {
 	}
 }
 
-// RemoveList removes all items in values from the set if they
-// exist in the set.
-func (s *Set) RemoveList(values []interface{}) {
-	s.RemoveAll(values...)
+// RemoveList removes all items in list from the set if they exist in
+// the set.
+func (s *Set) RemoveList(list []interface{}) {
+	s.RemoveAll(list...)
 }
 
 // Contains check if value exists in the set.
@@ -83,9 +81,9 @@ func (s *Set) ContainsAll(values ...interface{}) bool {
 	return true
 }
 
-// ContainsList checks if all items in values exist in the set.
-func (s *Set) ContainsList(values []interface{}) bool {
-	return s.ContainsAll(values...)
+// ContainsList checks if all items in list exist in the set.
+func (s *Set) ContainsList(list []interface{}) bool {
+	return s.ContainsAll(list...)
 }
 
 // ContainsFunc iterates all the items in the set and passes
@@ -155,7 +153,9 @@ func (s *Set) IteratorFunc(f func(value interface{}) bool) Iterator {
 	})
 }
 
-// Items returns slice of all items in the set.
+// Items returns a slice of a copy of all items in the set.
+// Modification to the returned slice does not affect the set
+// if none of items is a pointer.
 func (s *Set) Items() []interface{} {
 	s.RLock()
 	defer s.RUnlock()
@@ -169,6 +169,8 @@ func (s *Set) Items() []interface{} {
 }
 
 // ItemsFunc returns slice of all items that when passed to f, f returns true.
+// Modification to the returned slice does not affect the set if none of the
+// items is a pointer.
 func (s *Set) ItemsFunc(f func(value interface{}) bool) []interface{} {
 	s.RLock()
 	defer s.RUnlock()
