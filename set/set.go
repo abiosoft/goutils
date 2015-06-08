@@ -75,7 +75,7 @@ func (s *Set) ContainsAll(values ...interface{}) bool {
 func (s *Set) ContainsFunc(f func(interface{}) bool) bool {
 	s.RLock()
 	defer s.RUnlock()
-	for k, _ := range s.m {
+	for k := range s.m {
 		if f(k) {
 			return true
 		}
@@ -101,7 +101,7 @@ func (s *Set) Clear() {
 func (s *Set) Iterator() Iterator {
 	iterChan := make(chan interface{})
 	go func() {
-		for k, _ := range s.m {
+		for k := range s.m {
 			iterChan <- k
 		}
 		close(iterChan)
@@ -117,7 +117,7 @@ func (s *Set) Iterator() Iterator {
 func (s *Set) IteratorFunc(f func(value interface{}) bool) Iterator {
 	iterChan := make(chan interface{})
 	go func() {
-		for k, _ := range s.m {
+		for k := range s.m {
 			if f(k) {
 				iterChan <- k
 			}
@@ -136,7 +136,7 @@ func (s *Set) Items() []interface{} {
 	defer s.RUnlock()
 	items := make([]interface{}, len(s.m))
 	i := 0
-	for k, _ := range s.m {
+	for k := range s.m {
 		items[i] = k
 	}
 	return items
@@ -147,7 +147,7 @@ func (s *Set) ItemsFunc(f func(value interface{}) bool) []interface{} {
 	s.RLock()
 	defer s.RUnlock()
 	var items []interface{}
-	for k, _ := range s.m {
+	for k := range s.m {
 		if f(k) {
 			items = append(items, k)
 		}
