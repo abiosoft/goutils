@@ -6,6 +6,8 @@ import "sync"
 // Set stores distinct items.
 // An empty Set struct is not valid for use.
 // Use NewSet instead.
+// Set is safe for concurrent use and all methods can be
+// accessed from multiple goroutines.
 type Set struct {
 	m map[interface{}]struct{}
 	sync.RWMutex
@@ -32,20 +34,32 @@ func (s *Set) AddAll(values ...interface{}) {
 	}
 }
 
-// Remove removes value from the set.
+// AddList adds all items in values to the set distinctlly.
+func (s *Set) AddList(values []interface{}) {
+	s.AddAll(values...)
+}
+
+// Remove removes value from the set if it exists in the set.
 func (s *Set) Remove(value interface{}) {
 	s.Lock()
 	defer s.Unlock()
 	delete(s.m, value)
 }
 
-// RemoveAll removes all values from the set.
+// RemoveAll removes all values from the set if they exist in
+// the set.
 func (s *Set) RemoveAll(values ...interface{}) {
 	s.Lock()
 	defer s.Unlock()
 	for _, value := range values {
 		delete(s.m, value)
 	}
+}
+
+// RemoveList removes all items in values from the set if they
+// exist in the set.
+func (s *Set) RemoveList(values []interface{}) {
+	s.RemoveAll(values...)
 }
 
 // Contains check if value exists in the set.
@@ -67,6 +81,11 @@ func (s *Set) ContainsAll(values ...interface{}) bool {
 		}
 	}
 	return true
+}
+
+// ContainsList checks if all items in values exist in the set.
+func (s *Set) ContainsList(values []interface{}) bool {
+	return s.ContainsAll(values...)
 }
 
 // ContainsFunc iterates all the items in the set and passes
@@ -98,6 +117,8 @@ func (s *Set) Clear() {
 }
 
 // Iterator returns a new Iterator to iterate through values in the set.
+// Writers to s wait until the iteration is complete. This ensures
+// no data manipulation during iteration.
 func (s *Set) Iterator() Iterator {
 	iterChan := make(chan interface{})
 	go func() {
@@ -151,7 +172,7 @@ func (s *Set) Items() []interface{} {
 func (s *Set) ItemsFunc(f func(value interface{}) bool) []interface{} {
 	s.RLock()
 	defer s.RUnlock()
-	var items []interface{}
+	items := []interface{}{}
 	for k := range s.m {
 		if f(k) {
 			items = append(items, k)
