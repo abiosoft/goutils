@@ -22,7 +22,7 @@ s.AddAll(1, 1, 2, 2, 3, 6, 2, 1, "a", "b", "a")
 s.Size() // 6
 
 list := []interface{}{1, 2, 3, 6, "a", "b"}
-s.ContainsAll(list...) // true
+s.ContainsList(list) // true
 
 iter := s.Iterator()
 for iter.HasNext() {

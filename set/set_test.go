@@ -11,7 +11,7 @@ func Example() {
 	fmt.Println(s.Size()) // 6
 
 	list := []interface{}{1, 2, 3, 6, "a", "b"}
-	fmt.Println(s.ContainsAll(list...)) // true
+	fmt.Println(s.ContainsList(list)) // true
 
 	iter := s.Iterator()
 	for iter.HasNext() {
