@@ -19,33 +19,33 @@ func NewSet() *Set {
 // Add adds a value to the set.
 func (s *Set) Add(value interface{}) {
 	s.Lock()
+	defer s.Unlock()
 	s.m[value] = struct{}{}
-	s.Unlock()
 }
 
 // AddAll adds all values to the set distinctly.
 func (s *Set) AddAll(values ...interface{}) {
 	s.Lock()
+	defer s.Unlock()
 	for _, value := range values {
 		s.m[value] = struct{}{}
 	}
-	s.Unlock()
 }
 
 // Remove removes value from the set.
 func (s *Set) Remove(value interface{}) {
 	s.Lock()
+	defer s.Unlock()
 	delete(s.m, value)
-	s.Unlock()
 }
 
 // RemoveAll removes all values from the set.
 func (s *Set) RemoveAll(values ...interface{}) {
 	s.Lock()
+	defer s.Unlock()
 	for _, value := range values {
 		delete(s.m, value)
 	}
-	s.Unlock()
 }
 
 // Contains check if value exists in the set.
@@ -93,14 +93,16 @@ func (s *Set) Size() int {
 // Clear empties the set.
 func (s *Set) Clear() {
 	s.Lock()
+	defer s.Unlock()
 	s.m = make(map[interface{}]struct{})
-	s.Unlock()
 }
 
 // Iterator returns a new Iterator to iterate through values in the set.
 func (s *Set) Iterator() Iterator {
 	iterChan := make(chan interface{})
 	go func() {
+		s.RLock()
+		defer s.RUnlock()
 		for k := range s.m {
 			iterChan <- k
 		}
@@ -117,6 +119,8 @@ func (s *Set) Iterator() Iterator {
 func (s *Set) IteratorFunc(f func(value interface{}) bool) Iterator {
 	iterChan := make(chan interface{})
 	go func() {
+		s.RLock()
+		defer s.RUnlock()
 		for k := range s.m {
 			if f(k) {
 				iterChan <- k
@@ -138,6 +142,7 @@ func (s *Set) Items() []interface{} {
 	i := 0
 	for k := range s.m {
 		items[i] = k
+		i++
 	}
 	return items
 }
