@@ -4,7 +4,7 @@ A set of personal utilities for Go.
 
 I will keep adding more packages as time goes on.
 
-[![Documentation](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/abiosoft/goutils/set)
+[![Documentation](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/abiosoft/goutils)
 
 ### Packages
 
