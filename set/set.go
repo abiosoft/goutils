@@ -33,9 +33,9 @@ func (s *Set) AddAll(values ...interface{}) {
 	}
 }
 
-// AddList adds all items in values to the set distinctlly.
-func (s *Set) AddList(values []interface{}) {
-	s.AddAll(values...)
+// AddList adds all items in list to the set distinctlly.
+func (s *Set) AddList(list []interface{}) {
+	s.AddAll(list...)
 }
 
 // Remove removes value from the set if it exists in the set.
