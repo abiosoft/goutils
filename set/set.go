@@ -119,18 +119,15 @@ func (s *Set) Clear() {
 // Each call to this method creates a new Iterator. Therefore, the
 // returned Iterator should be assigned to a variable before usage.
 //
-// Writers to s wait until the iteration is complete. This ensures
-// no data manipulation during iteration.
+// It is safe to create and use multiple Iterators in multiple goroutines.
 func (s *Set) Iterator() Iterator {
-	iterChan := make(chan interface{})
-	go func() {
-		s.RLock()
-		defer s.RUnlock()
-		for k := range s.m {
-			iterChan <- k
-		}
-		close(iterChan)
-	}()
+	s.RLock()
+	defer s.RUnlock()
+	iterChan := make(chan interface{}, len(s.m))
+	for k := range s.m {
+		iterChan <- k
+	}
+	close(iterChan)
 	return IterFunc(func() (interface{}, bool) {
 		value, ok := <-iterChan
 		return value, ok
@@ -140,17 +137,15 @@ func (s *Set) Iterator() Iterator {
 // IteratorFunc is same as Iterator but the returned Iterator only
 // iterates through values that when passed to f, f returns true.
 func (s *Set) IteratorFunc(f func(value interface{}) bool) Iterator {
-	iterChan := make(chan interface{})
-	go func() {
-		s.RLock()
-		defer s.RUnlock()
-		for k := range s.m {
-			if f(k) {
-				iterChan <- k
-			}
+	s.RLock()
+	defer s.RUnlock()
+	iterChan := make(chan interface{}, len(s.m))
+	for k := range s.m {
+		if f(k) {
+			iterChan <- k
 		}
-		close(iterChan)
-	}()
+	}
+	close(iterChan)
 	return IterFunc(func() (interface{}, bool) {
 		value, ok := <-iterChan
 		return value, ok
