@@ -2,7 +2,9 @@
 
 A set of personal utilities for Go.
 
-[![Documentation](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/abiosoft/goutils) [![Build Status](https://drone.io/github.com/abiosoft/goutils/status.png)](https://drone.io/github.com/abiosoft/goutils/latest)
+[![Documentation](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/abiosoft/goutils)
+[![Build Status](https://drone.io/github.com/abiosoft/goutils/status.png)](https://drone.io/github.com/abiosoft/goutils/latest)
+[![Coverage Status](https://coveralls.io/repos/abiosoft/goutils/badge.svg)](https://coveralls.io/r/abiosoft/goutils)
 
 I will keep adding more packages as time goes on and the need arises.
 
