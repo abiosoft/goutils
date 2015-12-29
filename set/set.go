@@ -14,7 +14,7 @@ type Set struct {
 }
 
 // NewSet creates a new Set.
-func NewSet() *Set {
+func New() *Set {
 	return &Set{make(map[interface{}]struct{}), sync.RWMutex{}}
 }
 

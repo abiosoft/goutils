@@ -16,7 +16,7 @@ I will keep adding more packages as time goes on and the need arises.
 
 ##### Example
 ```go
-s := NewSet()
+s := New()
 
 // stores distinctly, repetitions have no effect.
 s.AddAll(1, 1, 2, 2, 3, 6, 2, 1, "a", "b", "a")

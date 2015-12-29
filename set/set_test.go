@@ -7,7 +7,7 @@ import (
 )
 
 func TestAdd(t *testing.T) {
-	s := NewSet()
+	s := New()
 	s.Add("a")
 	if s.Size() != 1 {
 		t.Errorf("Expected 1 found %v", s.Size())
@@ -37,13 +37,13 @@ func TestAdd(t *testing.T) {
 			t.Error(v, " should be present in the set")
 		}
 	}
-	s = NewSet()
+	s = New()
 	s.Add(1)
 	s.Add("1")
 	if s.Size() != 2 {
 		t.Errorf("Expected 2 found %v", 2)
 	}
-	s = NewSet()
+	s = New()
 	var wg sync.WaitGroup
 	add := func(start int) {
 		for i := start; i < start+10; i++ {
@@ -69,7 +69,7 @@ func TestAdd(t *testing.T) {
 }
 
 func TestRemove(t *testing.T) {
-	s := NewSet()
+	s := New()
 	s.AddAll("a", "b")
 	s.Remove("a")
 	if s.Size() != 1 {
@@ -113,7 +113,7 @@ func TestRemove(t *testing.T) {
 }
 
 func TestContains(t *testing.T) {
-	s := NewSet()
+	s := New()
 	s.Add("a")
 	if !s.Contains("a") {
 		t.Errorf("a should be present in the set")
@@ -149,7 +149,7 @@ func TestContains(t *testing.T) {
 }
 
 func TestItems(t *testing.T) {
-	s := NewSet()
+	s := New()
 	s.AddAll(2, 3, 9, 0)
 	items := s.Items()
 
@@ -170,7 +170,7 @@ func TestItems(t *testing.T) {
 }
 
 func TestIteration(t *testing.T) {
-	s := NewSet()
+	s := New()
 
 	s.AddAll(1, 2, 3, 4)
 
@@ -212,7 +212,7 @@ func TestIteration(t *testing.T) {
 }
 
 func Example() {
-	s := NewSet()
+	s := New()
 
 	// stores distinctly, repetitions have no effect.
 	s.AddAll(1, 1, 2, 2, 3, 6, 2, 1, "a", "b", "a")
@@ -239,7 +239,7 @@ func Example() {
 }
 
 func ExampleIterator() {
-	s := NewSet()
+	s := New()
 
 	s.AddAll(1, 1, 1)
 
@@ -253,7 +253,7 @@ func ExampleIterator() {
 }
 
 func ExampleSet_IteratorFunc() {
-	s := NewSet()
+	s := New()
 
 	s.AddAll(1, 2, 3, 4)
 
