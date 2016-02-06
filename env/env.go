@@ -27,7 +27,7 @@ func (e *EnvVar) Set(key, value string) {
 }
 
 // SetStr sets environment variable from key=val string format.
-func (e EnvVar) SetStr(keyVal string) {
+func (e *EnvVar) SetStr(keyVal string) {
 	s := strings.SplitN(keyVal, "=", 2)
 	if len(s) == 2 {
 		e.Set(s[0], s[1])
