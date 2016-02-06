@@ -35,7 +35,7 @@ for iter.HasNext() {
 }
 ```
 
-#### 2. Environment Variable
+#### 2. Environment Variables
 
 [![Documentation](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/abiosoft/goutils/env)
 

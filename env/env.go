@@ -1,3 +1,4 @@
+// Package env implements a Environment Variables using []string.
 package env
 
 import (
