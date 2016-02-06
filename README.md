@@ -44,9 +44,13 @@ for iter.HasNext() {
 import "github.com/abiosoft/goutils/env"
 
 var vars env.EnvVar
+
+// set key and val
 vars.Set("GOPATH", "$HOME/go")
+// or set as a full string
+vars.SetStr("GOPATH=$HOME/go")
+// get
 vars.Get("GOPATH") // $HOME/go
-vars.String() // GOPATH=$HOME/go
 
 vars.Set("GOOS", "darwin")
 vars.Get("GOOS") // darwin
@@ -54,5 +58,6 @@ vars.String() // GOPATH=$HOME/go\nGOOS=darwin
 
 // though env.EnvVar is a slice, adding an invalid string has no effect.
 vars = append(vars, "SOME STRING")
+vars.SetStr("SOME STRING")
 vars.String() // GOPATH=$HOME/go\nGOOS=darwin
 ```

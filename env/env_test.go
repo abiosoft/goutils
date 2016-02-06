@@ -16,8 +16,12 @@ func TestEnvVar(t *testing.T) {
 		t.Errorf("Expected IDE=vim found %s", str)
 	}
 
-	// invalid string
+	// invalid strings
 	vars = append(vars, "SOMEVALS")
+	if str := vars.String(); strings.TrimSpace(str) != "IDE=vim" {
+		t.Errorf("Expected IDE=vim found %s", str)
+	}
+	vars.SetStr("SOME STRING")
 	if str := vars.String(); strings.TrimSpace(str) != "IDE=vim" {
 		t.Errorf("Expected IDE=vim found %s", str)
 	}
@@ -36,11 +40,16 @@ func TestEnvVar(t *testing.T) {
 		t.Errorf("Expected vim found %s", key)
 	}
 
+	vars.SetStr("KEY=val1")
+	if key := vars.Get("KEY"); key != "val1" {
+		t.Errorf("Expected val1 found %s", key)
+	}
+
 	if l := len(vars); l != 3 {
 		t.Errorf("Expected 3 found %d", l)
 	}
-	if str := vars.String(); !strings.Contains(str, "IDE=vim") || !strings.Contains(str, "KEY=val") {
-		t.Errorf("Must contain IDE=vim and KEY=val")
+	if str := vars.String(); !strings.Contains(str, "IDE=vim") || !strings.Contains(str, "KEY=val1") {
+		t.Errorf("Must contain IDE=vim and KEY=val1")
 	}
 
 }

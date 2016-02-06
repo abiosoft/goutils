@@ -26,6 +26,14 @@ func (e *EnvVar) Set(key, value string) {
 	*e = append(*e, keyVal)
 }
 
+// SetStr sets environment variable from key=val string format.
+func (e EnvVar) SetStr(keyVal string) {
+	s := strings.SplitN(keyVal, "=", 2)
+	if len(s) == 2 {
+		e.Set(s[0], s[1])
+	}
+}
+
 // Get retrieves the environment variable key
 func (e EnvVar) Get(key string) string {
 	for _, v := range e {
