@@ -40,6 +40,8 @@ func (e EnvVar) Get(key string) string {
 	return ""
 }
 
+// String returns key=val format of the environment variables.
+// Each on a line.
 func (e EnvVar) String() string {
 	b := bytes.NewBuffer(nil)
 	for _, env := range e {
